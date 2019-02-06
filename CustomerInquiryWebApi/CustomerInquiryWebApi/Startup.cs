@@ -1,23 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.ViewComponents;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Repositories;
+using Repositories.EntityFramework;
+using Repositories.EntityFramework.Repositories;
+using SimpleInjector;
+using SimpleInjector.Integration.AspNetCore.Mvc;
+using SimpleInjector.Lifestyles;
+using System.IO;
 
 namespace CustomerInquiryWebApi
 {
     public class Startup
     {
+        private readonly Container container = new Container();
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
         }
 
         public IConfiguration Configuration { get; }
@@ -25,12 +34,20 @@ namespace CustomerInquiryWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddDbContextPool<СustomerInquiryDbContext>(options =>
+                options.UseSqlServer(connectionString: Configuration.GetConnectionString("msSQLConnectionString")));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            IntegrateSimpleInjector(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            InitializeContainer(app, env);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -40,8 +57,37 @@ namespace CustomerInquiryWebApi
                 app.UseHsts();
             }
 
+            container.Verify();
+
             app.UseHttpsRedirection();
             app.UseMvc();
+        }
+
+        private void InitializeContainer(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            // Add application presentation components:
+            container.RegisterMvcControllers(app);
+            container.RegisterMvcViewComponents(app);
+
+            container.Register<ICustomerRepository, CustomerRepository>();
+            container.Register<ITransactionRepository, TransactionRepository>();
+
+            container.AutoCrossWireAspNetComponents(app);
+        }
+
+        private void IntegrateSimpleInjector(IServiceCollection services)
+        {
+            container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddSingleton<IControllerActivator>(
+                new SimpleInjectorControllerActivator(container));
+            services.AddSingleton<IViewComponentActivator>(
+                new SimpleInjectorViewComponentActivator(container));
+
+            services.EnableSimpleInjectorCrossWiring(container);
+            services.UseSimpleInjectorAspNetRequestScoping(container);
         }
     }
 }

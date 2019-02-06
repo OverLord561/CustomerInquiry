@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Repositories;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CustomerInquiryWebApi.Controllers
 {
@@ -10,6 +8,12 @@ namespace CustomerInquiryWebApi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+
+        public ValuesController(ICustomerRepository customerRepository)
+        {
+            var data = customerRepository.All();
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
