@@ -10,7 +10,7 @@ using Repositories.EntityFramework;
 namespace Repositories.EntityFramework.Migrations
 {
     [DbContext(typeof(СustomerInquiryDbContext))]
-    [Migration("20190206152613_initial")]
+    [Migration("20190206170334_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

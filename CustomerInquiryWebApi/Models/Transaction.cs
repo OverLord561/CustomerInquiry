@@ -13,10 +13,10 @@ namespace Models
         public double TransactionAmount { get; set; }
 
        
-        public Currency Currency { get; set; }
+        public virtual Currency Currency { get; set; }
        
-        public Status Status { get; set; }
+        public virtual Status Status { get; set; }
 
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

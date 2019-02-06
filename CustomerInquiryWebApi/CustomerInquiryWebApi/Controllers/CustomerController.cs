@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CustomerInquiryWebApi.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repositories;
+using System.Threading.Tasks;
 
 namespace CustomerInquiryWebApi.Controllers
 {
@@ -12,17 +10,19 @@ namespace CustomerInquiryWebApi.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly ICustomerRepository _customerRepository;
-        public CustomerController(ICustomerRepository customerRepository)
+        private readonly ICustomerService _customerService;
+        public CustomerController(ICustomerService customerService)
         {
-            _customerRepository = customerRepository;
+            _customerService = customerService;
         }
 
         // GET api/customer/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var data = await _customerService.GetDataByIdAsync(id);
+
+            return new JsonResult(new { StatusCode = StatusCodes.Status200OK, data = data });
         }
     }
 }

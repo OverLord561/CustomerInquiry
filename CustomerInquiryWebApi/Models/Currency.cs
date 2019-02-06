@@ -12,6 +12,6 @@ namespace Models
 
         public string CurrencyName { get; set; }
 
-        public ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }

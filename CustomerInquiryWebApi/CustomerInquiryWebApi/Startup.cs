@@ -14,6 +14,9 @@ using SimpleInjector;
 using SimpleInjector.Integration.AspNetCore.Mvc;
 using SimpleInjector.Lifestyles;
 using System.IO;
+using CustomerInquiryWebApi.Services;
+using AutoMapper;
+using CustomerInquiryWebApi.Mapping;
 
 namespace CustomerInquiryWebApi
 {
@@ -38,6 +41,8 @@ namespace CustomerInquiryWebApi
             services.AddDbContextPool<СustomerInquiryDbContext>(options =>
                 options.UseSqlServer(connectionString: Configuration.GetConnectionString("msSQLConnectionString")));
 
+            ConfigureMapping(services);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             IntegrateSimpleInjector(services);
@@ -57,8 +62,8 @@ namespace CustomerInquiryWebApi
                 app.UseHsts();
             }
 
-            container.Verify();
-
+            container.Verify(); // Get all benefits from Simple Injector
+            
             app.UseHttpsRedirection();
             app.UseMvc();
         }
@@ -71,6 +76,7 @@ namespace CustomerInquiryWebApi
 
             container.Register<ICustomerRepository, CustomerRepository>();
             container.Register<ITransactionRepository, TransactionRepository>();
+            container.Register<ICustomerService, CustomerService>();
 
             container.AutoCrossWireAspNetComponents(app);
         }
@@ -88,6 +94,23 @@ namespace CustomerInquiryWebApi
 
             services.EnableSimpleInjectorCrossWiring(container);
             services.UseSimpleInjectorAspNetRequestScoping(container);
+        }
+
+        private void ConfigureMapping(IServiceCollection services)
+        {
+            //services.AddAutoMapper(mc =>
+            //{
+            //    mc.AddProfile(new CustomerMappingProfile());
+            //});
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new CustomerMappingProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
         }
     }
 }

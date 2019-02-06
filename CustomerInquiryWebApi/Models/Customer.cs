@@ -15,7 +15,7 @@ namespace Models
 
         public string CustomerMobileNumer { get; set; }
 
-        public ICollection<Transaction> Transactions { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
 
     }
 }

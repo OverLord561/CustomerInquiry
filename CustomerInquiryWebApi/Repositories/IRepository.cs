@@ -19,8 +19,17 @@ namespace Repositories
 
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> predicate);
 
+        Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> predicate);
+
         IEnumerable<TEntity> All();
 
         Task<List<TEntity>> AllAsync();
+
+        TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate);
+       
+        Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
+
+        TProjection SingleOrDefault<TProjection>(Expression<Func<TEntity, bool>> predicate, object parameters = null);
+        Task<TProjection> SingleOrDefaultAsync<TProjection>(Expression<Func<TEntity, bool>> predicate, object parameters = null);
     }
 }
