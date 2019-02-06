@@ -6,6 +6,12 @@ namespace Repositories.EntityFramework
     public class СustomerInquiryDbContext : DbContext
     {
 
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Status> Statuses { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+
+
         public СustomerInquiryDbContext(DbContextOptions options)
             : base(options) { }
 
@@ -19,14 +25,12 @@ namespace Repositories.EntityFramework
                 .WithOne(e => e.Customer);
 
             builder.Entity<Currency>()
-                .HasOne(a => a.Transaction)
-                .WithOne(b => b.Currency)
-                .HasForeignKey<Currency>(b => b.CurrencyID);
+                .HasMany(a => a.Transactions)
+                .WithOne(b => b.Currency);
 
             builder.Entity<Status>()
-                .HasOne(a => a.Transaction)
-                .WithOne(b => b.Status)
-                .HasForeignKey<Status>(b => b.StatusID);
+                .HasMany(a => a.Transactions)
+                .WithOne(b => b.Status);
         }
     }
 }

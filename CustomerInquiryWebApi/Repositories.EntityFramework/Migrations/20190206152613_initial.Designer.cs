@@ -10,8 +10,8 @@ using Repositories.EntityFramework;
 namespace Repositories.EntityFramework.Migrations
 {
     [DbContext(typeof(СustomerInquiryDbContext))]
-    [Migration("20190206133831_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20190206152613_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,9 @@ namespace Repositories.EntityFramework.Migrations
 
             modelBuilder.Entity("Models.Currency", b =>
                 {
-                    b.Property<int>("CurrencyID");
+                    b.Property<int>("CurrencyID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CurrencyCode");
 
@@ -31,7 +33,7 @@ namespace Repositories.EntityFramework.Migrations
 
                     b.HasKey("CurrencyID");
 
-                    b.ToTable("Currency");
+                    b.ToTable("Currencies");
                 });
 
             modelBuilder.Entity("Models.Customer", b =>
@@ -48,12 +50,14 @@ namespace Repositories.EntityFramework.Migrations
 
                     b.HasKey("CustomerID");
 
-                    b.ToTable("Customer");
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("Models.Status", b =>
                 {
-                    b.Property<int>("StatusID");
+                    b.Property<int>("StatusID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("StatusCode");
 
@@ -61,7 +65,7 @@ namespace Repositories.EntityFramework.Migrations
 
                     b.HasKey("StatusID");
 
-                    b.ToTable("Status");
+                    b.ToTable("Statuses");
                 });
 
             modelBuilder.Entity("Models.Transaction", b =>
@@ -70,11 +74,11 @@ namespace Repositories.EntityFramework.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CurrencyID");
+                    b.Property<int?>("CurrencyID");
 
                     b.Property<int?>("CustomerID");
 
-                    b.Property<int>("StatusID");
+                    b.Property<int?>("StatusID");
 
                     b.Property<double>("TransactionAmount");
 
@@ -82,32 +86,28 @@ namespace Repositories.EntityFramework.Migrations
 
                     b.HasKey("TransactionID");
 
+                    b.HasIndex("CurrencyID");
+
                     b.HasIndex("CustomerID");
 
-                    b.ToTable("Transaction");
-                });
+                    b.HasIndex("StatusID");
 
-            modelBuilder.Entity("Models.Currency", b =>
-                {
-                    b.HasOne("Models.Transaction", "Transaction")
-                        .WithOne("Currency")
-                        .HasForeignKey("Models.Currency", "CurrencyID")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Models.Status", b =>
-                {
-                    b.HasOne("Models.Transaction", "Transaction")
-                        .WithOne("Status")
-                        .HasForeignKey("Models.Status", "StatusID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Models.Transaction", b =>
                 {
+                    b.HasOne("Models.Currency", "Currency")
+                        .WithMany("Transactions")
+                        .HasForeignKey("CurrencyID");
+
                     b.HasOne("Models.Customer", "Customer")
                         .WithMany("Transactions")
                         .HasForeignKey("CustomerID");
+
+                    b.HasOne("Models.Status", "Status")
+                        .WithMany("Transactions")
+                        .HasForeignKey("StatusID");
                 });
 #pragma warning restore 612, 618
         }
