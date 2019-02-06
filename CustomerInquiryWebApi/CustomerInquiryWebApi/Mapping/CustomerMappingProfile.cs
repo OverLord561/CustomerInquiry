@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
-using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CustomerInquiryWebApi.ViewModels;
+using Models;
 
 namespace CustomerInquiryWebApi.Mapping
 {
@@ -22,7 +18,7 @@ namespace CustomerInquiryWebApi.Mapping
             .ForMember(dest => dest.Mobile,
                 opts => opts.MapFrom(src => src.CustomerMobileNumer))
             .ForMember(dest => dest.Transactions,
-                opts => opts.Ignore());
+                opts => opts.MapFrom(src => src.Transactions));
         }
     }
 }

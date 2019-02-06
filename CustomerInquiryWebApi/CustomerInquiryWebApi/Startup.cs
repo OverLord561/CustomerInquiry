@@ -98,18 +98,12 @@ namespace CustomerInquiryWebApi
 
         private void ConfigureMapping(IServiceCollection services)
         {
-            //services.AddAutoMapper(mc =>
-            //{
-            //    mc.AddProfile(new CustomerMappingProfile());
-            //});
-
-            var mappingConfig = new MapperConfiguration(mc =>
+            services.AddAutoMapper(mc =>
             {
                 mc.AddProfile(new CustomerMappingProfile());
+                mc.AddProfile(new TransactionMappingProfile());
             });
 
-            IMapper mapper = mappingConfig.CreateMapper();
-            services.AddSingleton(mapper);
 
         }
     }

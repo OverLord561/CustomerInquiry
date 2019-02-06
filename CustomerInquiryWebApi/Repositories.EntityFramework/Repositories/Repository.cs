@@ -118,14 +118,14 @@ namespace Repositories.EntityFramework.Repositories
             return projection.SingleOrDefault();
         }
 
-        public virtual async Task<TProjection> SingleOrDefaultAsync<TProjection>(Expression<Func<TEntity, bool>> predicate, object parameters = null)
+        public virtual async Task<TProjection> SingleOrDefaultAsync<TProjection>(Expression<Func<TEntity, bool>> predicate, IConfigurationProvider configuration = null)
         {
             IQueryable<TProjection> projection;
             var query = _context.Set<TEntity>().Where(predicate);
 
-            if (parameters != null)
+            if (configuration != null)
             {
-                projection = query.ProjectTo<TProjection>(parameters as IConfigurationProvider);
+                projection = query.ProjectTo<TProjection>(configuration);
             }
             else
             {

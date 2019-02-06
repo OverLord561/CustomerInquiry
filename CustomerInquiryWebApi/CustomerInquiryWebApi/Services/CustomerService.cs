@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CustomerInquiryWebApi.ViewModels;
-using Models;
 using Repositories;
 using System;
 using System.Threading.Tasks;
