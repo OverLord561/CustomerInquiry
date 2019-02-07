@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using CustomerInquiryWebApi.Mapping;
+using CustomerInquiryWebApi.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +16,8 @@ using Repositories.EntityFramework.Repositories;
 using SimpleInjector;
 using SimpleInjector.Integration.AspNetCore.Mvc;
 using SimpleInjector.Lifestyles;
-using System.IO;
-using CustomerInquiryWebApi.Services;
-using AutoMapper;
-using CustomerInquiryWebApi.Extensions;
-using CustomerInquiryWebApi.Mapping;
 using Swashbuckle.AspNetCore.Swagger;
+using System.IO;
 
 namespace CustomerInquiryWebApi
 {
@@ -91,17 +90,17 @@ namespace CustomerInquiryWebApi
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
-            if (env.IsDevelopment())
-            {
-                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-                {
-                    var appContext = serviceScope.ServiceProvider.GetService<СustomerInquiryDbContext>();
+            //if (env.IsDevelopment())
+            //{
+            //    using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            //    {
+            //        var appContext = serviceScope.ServiceProvider.GetService<СustomerInquiryDbContext>();
 
-                    appContext.Database.EnsureDeleted();
-                    appContext.Database.Migrate();
-                    appContext.EnsureSeedData(env);
-                }
-            }
+            //        appContext.Database.EnsureDeleted();
+            //        appContext.Database.Migrate();
+            //        appContext.EnsureSeedData(env);
+            //    }
+            //}
         }
 
         private void InitializeContainer(IApplicationBuilder app, IHostingEnvironment env)
