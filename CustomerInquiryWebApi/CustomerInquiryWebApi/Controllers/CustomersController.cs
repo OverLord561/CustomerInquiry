@@ -24,6 +24,11 @@ namespace CustomerInquiryWebApi.Controllers
         [HttpGet("get-by-id")]
         public async Task<IActionResult> Get(string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                return BadRequest(new NoInquiryCriteriaException("No inquiry criteria").Message);
+            }
+
             bool isValid = _customerService.IsCustomerIdValid(id);
 
             if (!isValid)
@@ -31,14 +36,19 @@ namespace CustomerInquiryWebApi.Controllers
                 return BadRequest(new InvalidCustomerIDException("Invalid Customer ID").Message);
             }
 
-            CustomerViewModel data = await _customerService.GetDataByIdAsync(int.Parse(id));
+            CustomerViewModel customer = await _customerService.GetDataByIdAsync(int.Parse(id));
 
-            return new JsonResult(new { StatusCode = StatusCodes.Status200OK, data = data });
+            return new JsonResult(new { StatusCode = StatusCodes.Status200OK, customer });
         }
         
         [HttpGet("get-by-email")]
         public async Task<IActionResult> GetByEmail(string email)
         {
+            if (string.IsNullOrEmpty(email))
+            {
+                return BadRequest(new NoInquiryCriteriaException("No inquiry criteria").Message);
+            }
+
             bool isValid = _customerService.IsEmailValid(email);
 
             if (!isValid)
@@ -46,9 +56,9 @@ namespace CustomerInquiryWebApi.Controllers
                 return BadRequest(new InvalidEmailException("Invalid Email").Message);
             }
 
-            CustomerViewModel data = await _customerService.GetDataByEmailAsync(email);
+            CustomerViewModel customer = await _customerService.GetDataByEmailAsync(email);
 
-            return new JsonResult(new { StatusCode = StatusCodes.Status200OK, data = data });
+            return new JsonResult(new { StatusCode = StatusCodes.Status200OK, customer });
         }
 
 
@@ -72,9 +82,9 @@ namespace CustomerInquiryWebApi.Controllers
                 return BadRequest(new InvalidEmailException("Invalid Email").Message);
             }
 
-            CustomerViewModel data = await _customerService.GetDataByIdAndEmailAsync(int.Parse(id), email);
+            CustomerViewModel customer = await _customerService.GetDataByIdAndEmailAsync(int.Parse(id), email);
 
-            return new JsonResult(new { StatusCode = StatusCodes.Status200OK, data = data });
+            return new JsonResult(new { StatusCode = StatusCodes.Status200OK, customer });
         }
 
     }

@@ -44,9 +44,15 @@ namespace CustomerInquiryWebApi.Services
             return await _customerRepository.SingleOrDefaultAsync<CustomerViewModel>(x => x.CustomerID == id, _mapper.ConfigurationProvider);
         }
 
-        public bool IsCustomerIdValid(int id)
+        public bool IsCustomerIdValid(string id)
         {
-            return id > 0 && id.ToString().Length <= 10;
+            if (String.IsNullOrEmpty(id) || id.Length >= 10)
+            {
+                return false;
+            }
+
+            return int.TryParse(id, out var idResult);
+            
         }
 
         public bool IsEmailValid(string email)

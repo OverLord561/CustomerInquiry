@@ -18,6 +18,7 @@ using CustomerInquiryWebApi.Services;
 using AutoMapper;
 using CustomerInquiryWebApi.Extensions;
 using CustomerInquiryWebApi.Mapping;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace CustomerInquiryWebApi
 {
@@ -51,6 +52,17 @@ namespace CustomerInquiryWebApi
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "Customer Inquiry API",
+                    Description = "Describes main endpoints according to specification",
+                    TermsOfService = "None",
+                });
+            });
+
             IntegrateSimpleInjector(services);
         }
 
@@ -72,6 +84,12 @@ namespace CustomerInquiryWebApi
            
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
         }
 
         private void InitializeContainer(IApplicationBuilder app, IHostingEnvironment env)

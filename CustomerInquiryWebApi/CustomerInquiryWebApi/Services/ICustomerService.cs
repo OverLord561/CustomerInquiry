@@ -16,6 +16,6 @@ namespace CustomerInquiryWebApi.Services
 
         bool IsEmailValid(string email);
 
-        bool IsCustomerIdValid(int id);
+        bool IsCustomerIdValid(string id);
     }
 }
