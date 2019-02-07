@@ -2,7 +2,7 @@
 
 namespace CustomExceptions
 {
-    class InvalidCustomerIDException : Exception
+    public class InvalidCustomerIDException : Exception
     {
         public InvalidCustomerIDException()
         {

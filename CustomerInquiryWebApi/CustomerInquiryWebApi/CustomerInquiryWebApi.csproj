@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CustomExceptions\CustomExceptions.csproj" />
     <ProjectReference Include="..\Repositories.EntityFramework\Repositories.EntityFramework.csproj" />
   </ItemGroup>
 

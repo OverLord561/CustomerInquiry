@@ -17,19 +17,41 @@ namespace CustomerInquiryWebApi.Services
             _mapper = mapper;
         }
 
-        public Task<CustomerViewModel> GetDataByEmailAsync(string email)
+        public async Task<CustomerViewModel> GetDataByEmailAsync(string email)
         {
-            throw new NotImplementedException();
+            return await _customerRepository
+                .SingleOrDefaultAsync<CustomerViewModel>
+                (
+                    x => x.CustomerContactEmail.ToLower().Equals(email.ToLower()),
+                    _mapper.ConfigurationProvider
+                );
+
         }
 
-        public Task<CustomerViewModel> GetDataByIdAndEmailAsync(int id, string email)
+        public async Task<CustomerViewModel> GetDataByIdAndEmailAsync(int id, string email)
         {
-            throw new NotImplementedException();
+            return await _customerRepository
+                .SingleOrDefaultAsync<CustomerViewModel>
+                (
+                    x => x.CustomerContactEmail.ToLower().Equals(email.ToLower())
+                        && x.CustomerID == id,
+                    _mapper.ConfigurationProvider
+                );
         }
 
         public async Task<CustomerViewModel> GetDataByIdAsync(int id)
         {
             return await _customerRepository.SingleOrDefaultAsync<CustomerViewModel>(x => x.CustomerID == id, _mapper.ConfigurationProvider);
+        }
+
+        public bool IsCustomerIdValid(int id)
+        {
+            return id > 0 && id.ToString().Length <= 10;
+        }
+
+        public bool IsEmailValid(string email)
+        {
+            return !string.IsNullOrEmpty(email) && email.Length <= 25;
         }
     }
 }

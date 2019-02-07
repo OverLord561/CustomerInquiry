@@ -16,6 +16,7 @@ using SimpleInjector.Lifestyles;
 using System.IO;
 using CustomerInquiryWebApi.Services;
 using AutoMapper;
+using CustomerInquiryWebApi.Extensions;
 using CustomerInquiryWebApi.Mapping;
 
 namespace CustomerInquiryWebApi
@@ -43,6 +44,11 @@ namespace CustomerInquiryWebApi
 
             ConfigureMapping(services);
 
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             IntegrateSimpleInjector(services);
@@ -63,7 +69,7 @@ namespace CustomerInquiryWebApi
             }
 
             container.Verify(); // Get all benefits from Simple Injector
-            
+           
             app.UseHttpsRedirection();
             app.UseMvc();
         }

@@ -2,7 +2,7 @@
 
 namespace CustomExceptions
 {
-    class InvalidEmailException: Exception
+    public class InvalidEmailException: Exception
     {
         public InvalidEmailException()
         {

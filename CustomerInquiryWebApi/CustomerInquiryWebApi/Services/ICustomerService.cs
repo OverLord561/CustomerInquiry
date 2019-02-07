@@ -14,5 +14,8 @@ namespace CustomerInquiryWebApi.Services
 
         Task<CustomerViewModel> GetDataByIdAndEmailAsync(int id, string email);
 
+        bool IsEmailValid(string email);
+
+        bool IsCustomerIdValid(int id);
     }
 }
