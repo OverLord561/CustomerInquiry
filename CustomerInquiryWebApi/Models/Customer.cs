@@ -7,15 +7,19 @@ namespace Models
     public class Customer
     {
         [Required]
+        [MaxLength(10)]
         public int CustomerID { get; set; }
 
+        [MaxLength(30)]
         public string CustomerName { get; set; }
 
+        [MaxLength(25)]
         public string CustomerContactEmail { get; set; }
 
-        public string CustomerMobileNumer { get; set; }
+        [MaxLength(10)]
+        public string CustomerMobileNumber { get; set; }
 
-        public virtual ICollection<Transaction> Transactions { get; set; }
+        public ICollection<Transaction> Transactions { get; set; }
 
     }
 }

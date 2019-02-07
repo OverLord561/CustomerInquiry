@@ -11,9 +11,11 @@ namespace CustomerInquiryWebApi.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
-        public CustomerController(ICustomerService customerService)
+        private readonly ITransactionRepository _transactionRepository;
+        public CustomerController(ICustomerService customerService, ITransactionRepository transactionRepository)
         {
             _customerService = customerService;
+            _transactionRepository = transactionRepository;
         }
 
         // GET api/customer/5

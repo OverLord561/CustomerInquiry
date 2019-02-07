@@ -20,17 +20,17 @@ namespace Repositories.EntityFramework
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Customer>()
-                .HasMany(c => c.Transactions)
-                .WithOne(e => e.Customer);
+            //builder.Entity<Transaction>()
+            //    .HasOne(e => e.Customer).
+            //    .WithMany(c => c.Transactions);
 
-            builder.Entity<Currency>()
-                .HasMany(a => a.Transactions)
-                .WithOne(b => b.Currency);
+            //builder.Entity<Transaction>()
+            //    .HasOne(e => e.Currency)
+            //    .WithMany(c => c.Transactions);
 
-            builder.Entity<Status>()
-                .HasMany(a => a.Transactions)
-                .WithOne(b => b.Status);
+            //builder.Entity<Transaction>()
+            //    .HasOne(e => e.Status)
+            //    .WithMany(c => c.Transactions);
         }
     }
 }

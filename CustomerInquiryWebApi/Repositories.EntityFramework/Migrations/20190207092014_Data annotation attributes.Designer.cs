@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositories.EntityFramework;
 
 namespace Repositories.EntityFramework.Migrations
 {
     [DbContext(typeof(СustomerInquiryDbContext))]
-    partial class СustomerInquiryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190207092014_Data annotation attributes")]
+    partial class Dataannotationattributes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,11 +78,11 @@ namespace Repositories.EntityFramework.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CurrencyId");
+                    b.Property<int>("CurrencyID");
 
-                    b.Property<int>("CustomerId");
+                    b.Property<int>("CustomerID");
 
-                    b.Property<int>("StatusId");
+                    b.Property<int>("StatusID");
 
                     b.Property<double>("TransactionAmount");
 
@@ -88,11 +90,11 @@ namespace Repositories.EntityFramework.Migrations
 
                     b.HasKey("TransactionID");
 
-                    b.HasIndex("CurrencyId");
+                    b.HasIndex("CurrencyID");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("CustomerID");
 
-                    b.HasIndex("StatusId");
+                    b.HasIndex("StatusID");
 
                     b.ToTable("Transactions");
                 });
@@ -101,17 +103,17 @@ namespace Repositories.EntityFramework.Migrations
                 {
                     b.HasOne("Models.Currency", "Currency")
                         .WithMany("Transactions")
-                        .HasForeignKey("CurrencyId")
+                        .HasForeignKey("CurrencyID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Models.Customer", "Customer")
                         .WithMany("Transactions")
-                        .HasForeignKey("CustomerId")
+                        .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Models.Status", "Status")
                         .WithMany("Transactions")
-                        .HasForeignKey("StatusId")
+                        .HasForeignKey("StatusID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

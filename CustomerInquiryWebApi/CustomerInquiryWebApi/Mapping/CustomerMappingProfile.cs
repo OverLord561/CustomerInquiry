@@ -16,7 +16,7 @@ namespace CustomerInquiryWebApi.Mapping
             .ForMember(dest => dest.Email,
                 opts => opts.MapFrom(src => src.CustomerContactEmail))
             .ForMember(dest => dest.Mobile,
-                opts => opts.MapFrom(src => src.CustomerMobileNumer))
+                opts => opts.MapFrom(src => src.CustomerMobileNumber))
             .ForMember(dest => dest.Transactions,
                 opts => opts.MapFrom(src => src.Transactions));
         }

@@ -14,7 +14,7 @@ namespace Models
 
         public string StatusName { get; set; }
 
-        public virtual ICollection<Transaction> Transactions { get; set; }
+        public ICollection<Transaction> Transactions { get; set; }
 
     }
 }
