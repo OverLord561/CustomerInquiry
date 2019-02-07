@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace CustomerInquiryWebApi.Services
 {
-    public class CustomerService : ICustomerService
+    public class CustomersService : ICustomersService
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IMapper _mapper;
 
-        public CustomerService(ICustomerRepository customerRepository, IMapper mapper)
+        public CustomersService(ICustomerRepository customerRepository, IMapper mapper)
         {
             _customerRepository = customerRepository;
             _mapper = mapper;

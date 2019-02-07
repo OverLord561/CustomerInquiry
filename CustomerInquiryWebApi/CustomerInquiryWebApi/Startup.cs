@@ -100,7 +100,7 @@ namespace CustomerInquiryWebApi
 
             container.Register<ICustomerRepository, CustomerRepository>();
             container.Register<ITransactionRepository, TransactionRepository>();
-            container.Register<ICustomerService, CustomerService>();
+            container.Register<ICustomersService, CustomersService>();
 
             container.AutoCrossWireAspNetComponents(app);
         }

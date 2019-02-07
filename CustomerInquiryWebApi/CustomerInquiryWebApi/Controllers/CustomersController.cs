@@ -13,16 +13,14 @@ namespace CustomerInquiryWebApi.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
-        private readonly ICustomerService _customerService;
-        private readonly ITransactionRepository _transactionRepository;
-        public CustomersController(ICustomerService customerService, ITransactionRepository transactionRepository)
+        private readonly ICustomersService _customerService;
+        public CustomersController(ICustomersService customerService )
         {
             _customerService = customerService;
-            _transactionRepository = transactionRepository;
         }
 
         [HttpGet("get-by-id")]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> GetById(string id)
         {
             if (string.IsNullOrEmpty(id))
             {

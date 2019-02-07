@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CustomerInquiryWebApi.Services
 {
-    public interface ICustomerService
+    public interface ICustomersService
     {
         Task<CustomerViewModel> GetDataByIdAsync(int id);
 
