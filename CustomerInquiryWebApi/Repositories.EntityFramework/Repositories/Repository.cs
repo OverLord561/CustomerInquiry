@@ -101,7 +101,7 @@ namespace Repositories.EntityFramework.Repositories
             return await Include().SingleOrDefaultAsync(predicate);
         }
 
-        public virtual TProjection SingleOrDefault<TProjection>(Expression<Func<TEntity, bool>> predicate, object parameters = null)
+        public virtual TProjection SingleOrDefault<TProjection>(Expression<Func<TEntity, bool>> predicate, IConfigurationProvider parameters = null)
         {
             IQueryable<TProjection> projection;
             var query = _context.Set<TEntity>().Where(predicate);

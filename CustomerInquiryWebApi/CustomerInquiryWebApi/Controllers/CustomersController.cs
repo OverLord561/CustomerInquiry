@@ -38,6 +38,11 @@ namespace CustomerInquiryWebApi.Controllers
 
             CustomerViewModel customer = await _customerService.GetDataByIdAsync(int.Parse(id));
 
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
             return new JsonResult(new { StatusCode = StatusCodes.Status200OK, customer });
         }
         
@@ -57,6 +62,11 @@ namespace CustomerInquiryWebApi.Controllers
             }
 
             CustomerViewModel customer = await _customerService.GetDataByEmailAsync(email);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
 
             return new JsonResult(new { StatusCode = StatusCodes.Status200OK, customer });
         }
@@ -83,6 +93,11 @@ namespace CustomerInquiryWebApi.Controllers
             }
 
             CustomerViewModel customer = await _customerService.GetDataByIdAndEmailAsync(int.Parse(id), email);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
 
             return new JsonResult(new { StatusCode = StatusCodes.Status200OK, customer });
         }

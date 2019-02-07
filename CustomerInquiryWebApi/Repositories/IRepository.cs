@@ -30,7 +30,7 @@ namespace Repositories
        
         Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
 
-        TProjection SingleOrDefault<TProjection>(Expression<Func<TEntity, bool>> predicate, object parameters = null);
+        TProjection SingleOrDefault<TProjection>(Expression<Func<TEntity, bool>> predicate, IConfigurationProvider parameters = null);
         Task<TProjection> SingleOrDefaultAsync<TProjection>(Expression<Func<TEntity, bool>> predicate, IConfigurationProvider configuration = null);
     }
 }

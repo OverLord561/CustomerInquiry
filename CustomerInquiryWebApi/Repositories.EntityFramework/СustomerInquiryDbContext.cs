@@ -20,17 +20,9 @@ namespace Repositories.EntityFramework
         {
             base.OnModelCreating(builder);
 
-            //builder.Entity<Transaction>()
-            //    .HasOne(e => e.Customer).
-            //    .WithMany(c => c.Transactions);
-
-            //builder.Entity<Transaction>()
-            //    .HasOne(e => e.Currency)
-            //    .WithMany(c => c.Transactions);
-
-            //builder.Entity<Transaction>()
-            //    .HasOne(e => e.Status)
-            //    .WithMany(c => c.Transactions);
+            builder.Entity<Customer>(entity => {
+                entity.HasIndex(e => e.CustomerContactEmail).IsUnique();
+            });
         }
     }
 }
