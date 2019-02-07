@@ -10,8 +10,8 @@ using Repositories.EntityFramework;
 namespace Repositories.EntityFramework.Migrations
 {
     [DbContext(typeof(СustomerInquiryDbContext))]
-    [Migration("20190207092014_Data annotation attributes")]
-    partial class Dataannotationattributes
+    [Migration("20190207125808_Unique email")]
+    partial class Uniqueemail
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,7 +44,7 @@ namespace Repositories.EntityFramework.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CustomerContactEmail")
-                        .HasMaxLength(25);
+                        .HasMaxLength(20);
 
                     b.Property<string>("CustomerMobileNumber")
                         .HasMaxLength(10);
@@ -53,6 +53,10 @@ namespace Repositories.EntityFramework.Migrations
                         .HasMaxLength(30);
 
                     b.HasKey("CustomerID");
+
+                    b.HasIndex("CustomerContactEmail")
+                        .IsUnique()
+                        .HasFilter("[CustomerContactEmail] IS NOT NULL");
 
                     b.ToTable("Customers");
                 });
@@ -78,11 +82,11 @@ namespace Repositories.EntityFramework.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CurrencyID");
+                    b.Property<int>("CurrencyId");
 
-                    b.Property<int>("CustomerID");
+                    b.Property<int>("CustomerId");
 
-                    b.Property<int>("StatusID");
+                    b.Property<int>("StatusId");
 
                     b.Property<double>("TransactionAmount");
 
@@ -90,11 +94,11 @@ namespace Repositories.EntityFramework.Migrations
 
                     b.HasKey("TransactionID");
 
-                    b.HasIndex("CurrencyID");
+                    b.HasIndex("CurrencyId");
 
-                    b.HasIndex("CustomerID");
+                    b.HasIndex("CustomerId");
 
-                    b.HasIndex("StatusID");
+                    b.HasIndex("StatusId");
 
                     b.ToTable("Transactions");
                 });
@@ -103,17 +107,17 @@ namespace Repositories.EntityFramework.Migrations
                 {
                     b.HasOne("Models.Currency", "Currency")
                         .WithMany("Transactions")
-                        .HasForeignKey("CurrencyID")
+                        .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Models.Customer", "Customer")
                         .WithMany("Transactions")
-                        .HasForeignKey("CustomerID")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Models.Status", "Status")
                         .WithMany("Transactions")
-                        .HasForeignKey("StatusID")
+                        .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

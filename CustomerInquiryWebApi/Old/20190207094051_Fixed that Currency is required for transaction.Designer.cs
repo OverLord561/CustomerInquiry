@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositories.EntityFramework;
 
 namespace Repositories.EntityFramework.Migrations
 {
     [DbContext(typeof(СustomerInquiryDbContext))]
-    partial class СustomerInquiryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190207094051_Fixed that Currency is required for transaction")]
+    partial class FixedthatCurrencyisrequiredfortransaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,8 +44,7 @@ namespace Repositories.EntityFramework.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CustomerContactEmail")
-                        .IsRequired()
-                        .HasMaxLength(25);
+                        .HasMaxLength(20);
 
                     b.Property<string>("CustomerMobileNumber")
                         .HasMaxLength(10);
@@ -52,9 +53,6 @@ namespace Repositories.EntityFramework.Migrations
                         .HasMaxLength(30);
 
                     b.HasKey("CustomerID");
-
-                    b.HasAlternateKey("CustomerContactEmail")
-                        .HasName("Customers_CustomerContactEmail");
 
                     b.ToTable("Customers");
                 });

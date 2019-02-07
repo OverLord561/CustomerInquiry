@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repositories.EntityFramework;
 
 namespace Repositories.EntityFramework.Migrations
 {
     [DbContext(typeof(СustomerInquiryDbContext))]
-    partial class СustomerInquiryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190207164430_Unique email 2.0")]
+    partial class Uniqueemail20
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +45,7 @@ namespace Repositories.EntityFramework.Migrations
 
                     b.Property<string>("CustomerContactEmail")
                         .IsRequired()
-                        .HasMaxLength(25);
+                        .HasMaxLength(20);
 
                     b.Property<string>("CustomerMobileNumber")
                         .HasMaxLength(10);
@@ -53,8 +55,7 @@ namespace Repositories.EntityFramework.Migrations
 
                     b.HasKey("CustomerID");
 
-                    b.HasAlternateKey("CustomerContactEmail")
-                        .HasName("Customers_CustomerContactEmail");
+                    b.HasAlternateKey("CustomerContactEmail");
 
                     b.ToTable("Customers");
                 });

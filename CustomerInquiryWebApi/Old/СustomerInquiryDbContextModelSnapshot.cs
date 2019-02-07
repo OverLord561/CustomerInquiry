@@ -43,7 +43,7 @@ namespace Repositories.EntityFramework.Migrations
 
                     b.Property<string>("CustomerContactEmail")
                         .IsRequired()
-                        .HasMaxLength(25);
+                        .HasMaxLength(20);
 
                     b.Property<string>("CustomerMobileNumber")
                         .HasMaxLength(10);
@@ -53,8 +53,7 @@ namespace Repositories.EntityFramework.Migrations
 
                     b.HasKey("CustomerID");
 
-                    b.HasAlternateKey("CustomerContactEmail")
-                        .HasName("Customers_CustomerContactEmail");
+                    b.HasAlternateKey("CustomerContactEmail");
 
                     b.ToTable("Customers");
                 });

@@ -20,8 +20,10 @@ namespace Repositories.EntityFramework
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Customer>(entity => {
-                entity.HasIndex(e => e.CustomerContactEmail).IsUnique();
+            builder.Entity<Customer>(entity =>
+            {
+                entity.HasAlternateKey(e => e.CustomerContactEmail)
+                    .HasName("Customers_CustomerContactEmail");
             });
         }
     }

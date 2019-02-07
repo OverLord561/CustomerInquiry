@@ -90,6 +90,18 @@ namespace CustomerInquiryWebApi
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+
+            if (env.IsDevelopment())
+            {
+                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+                    var appContext = serviceScope.ServiceProvider.GetService<СustomerInquiryDbContext>();
+
+                    appContext.Database.EnsureDeleted();
+                    appContext.Database.Migrate();
+                    appContext.EnsureSeedData(env);
+                }
+            }
         }
 
         private void InitializeContainer(IApplicationBuilder app, IHostingEnvironment env)
